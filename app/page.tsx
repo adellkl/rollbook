@@ -1327,7 +1327,7 @@ export default function Home() {
             <p>
               {modalStep === 1 ? 'Colle la page de l’événement : ses informations seront préremplies.' : 'Ajoute ta catégorie, ton poids, le règlement et une note personnelle.'}
             </p>
-            {modalStep === 1 ? <>
+            {modalStep === 1 ? <div key="competition-event-step">
             <label>LIEN DE L’ÉVÉNEMENT</label><div className="source-import">
               <input
                 value={sourceUrl}
@@ -1366,7 +1366,7 @@ export default function Home() {
             <button type="button" className="import-button" onClick={() => { if (!draftName.trim() || !draftStartsOn) return setNotice('Renseigne le nom et la date de l’événement.'); setNotice(''); setModalStep(2); }}>
               Continuer <ArrowUpRight size={19} />
             </button>
-            </> : <>
+            </div> : <div key="competition-details-step">
             <label>CATÉGORIE</label>
             <select name="division" defaultValue="">
               <option value="" disabled>Choisir une catégorie</option>
@@ -1391,7 +1391,7 @@ export default function Home() {
                 </>
               )}
             </button>
-            </>}
+            </div>}
             <small>
               <CircleDot size={13} />
               Visible uniquement dans ton compte.
