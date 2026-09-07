@@ -72,6 +72,15 @@ function dateOnly(value: unknown) {
     .trim();
   const iso = normalized.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
   if (iso) return iso;
+  const frenchMonth: Record<string, string> = {
+    janvier: '01', février: '02', fevrier: '02', mars: '03', avril: '04', mai: '05', juin: '06',
+    juillet: '07', août: '08', aout: '08', septembre: '09', octobre: '10', novembre: '11', décembre: '12', decembre: '12',
+  };
+  const frenchDate = normalized.match(/(\d{1,2})(?:\s*(?:et|au|-)\s*\d{1,2})?\s+(janvier|février|fevrier|mars|avril|mai|juin|juillet|août|aout|septembre|octobre|novembre|décembre|decembre)\s+(\d{4})/i);
+  if (frenchDate) {
+    const [, day, monthName, year] = frenchDate;
+    return `${year}-${frenchMonth[monthName.toLowerCase()]}-${day.padStart(2, '0')}`;
+  }
   const numeric = normalized.match(/^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$/);
   if (numeric) {
     const [, day, month, year] = numeric;
@@ -112,6 +121,19 @@ function cfjjbEventImage(html: string, base: URL) {
   );
   return imageUrl(match?.[1], base);
 }
+function cfjjbField(html: string, label: string) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = html.match(new RegExp(`>\\s*${escaped}\\s*<\\/div>\\s*<div[^>]*>([\\s\\S]*?)<\\/div>`, 'i'));
+  return match?.[1] ? visibleText(match[1]) : undefined;
+}
+function cfjjbEventName(html: string) {
+  const match = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
+  return match?.[1] ? visibleText(match[1]) : undefined;
+}
+function cfjjbEventCity(html: string) {
+  const place = cfjjbField(html, 'Lieu');
+  return place?.match(/\b\d{5}\s+(.+?)(?:\s*$)/)?.[1]?.trim();
+}
 
 async function eventFromPage(url: URL): Promise<ImportedEvent | undefined> {
   const response = await fetch(url, {
@@ -120,21 +142,24 @@ async function eventFromPage(url: URL): Promise<ImportedEvent | undefined> {
   });
   if (!response.ok || response.status >= 300) return undefined;
   const html = await response.text();
+  const organizer = isSmoothcomp(url.hostname) ? 'Smoothcomp' : 'CFJJB';
   const rawTitle =
     meta(html, 'og:title') ??
     meta(html, 'twitter:title') ??
     html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];
-  const name = rawTitle ? cleanTitle(decode(rawTitle)) : '';
+  const name = organizer === 'CFJJB'
+    ? cfjjbEventName(html) ?? (rawTitle ? cleanTitle(decode(rawTitle)) : '')
+    : rawTitle ? cleanTitle(decode(rawTitle)) : '';
   if (!name || /^(just a moment|enable javascript)/i.test(name))
     return undefined;
-  const organizer = isSmoothcomp(url.hostname) ? 'Smoothcomp' : 'CFJJB';
   return {
     name,
     image:
       organizer === 'CFJJB'
         ? cfjjbEventImage(html, url) ?? imageUrl(meta(html, 'og:image') ?? meta(html, 'twitter:image'), url)
         : imageUrl(meta(html, 'og:image') ?? meta(html, 'twitter:image'), url),
-    startsOn: eventDate(html),
+    city: organizer === 'CFJJB' ? cfjjbEventCity(html) : undefined,
+    startsOn: organizer === 'CFJJB' ? dateOnly(cfjjbField(html, 'Date')) ?? eventDate(html) : eventDate(html),
     sourceUrl: url.toString(),
     organizer,
   };

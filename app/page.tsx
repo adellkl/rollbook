@@ -534,6 +534,7 @@ export default function Home() {
       return;
     }
     setPanel(false);
+    setPage('overview');
     setSourceUrl('');
     setDraftName('');
     setDraftStartsOn('');
