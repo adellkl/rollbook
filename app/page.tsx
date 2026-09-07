@@ -1456,34 +1456,32 @@ export default function Home() {
                 {new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(`${eventDetails.starts_on}T12:00:00`))}
               </span>
               <h2 id="event-details-title">{eventDetails.name}</h2>
-              <p><MapPin size={15} /> {eventDetails.city || 'Lieu à préciser'}</p>
+              {eventDetails.city && <p><MapPin size={15} /> {eventDetails.city}</p>}
               {eventDetails.source_url && <a className="event-details-source" href={eventDetails.source_url} target="_blank" rel="noreferrer"><ExternalLink size={14} /> Page de l’événement</a>}
               {(eventDetails.overall_score || eventDetails.matches?.length) && <div className="event-details-quick-results">{eventDetails.overall_score && <span className="event-score">NOTE {eventDetails.overall_score}/10</span>}{!!eventDetails.matches?.length && <><span>{eventDetails.matches.length} combat{eventDetails.matches.length > 1 ? 's' : ''}</span><span>{eventDetails.matches.filter((match) => match.outcome === 'win').length} victoire{eventDetails.matches.filter((match) => match.outcome === 'win').length > 1 ? 's' : ''}</span>{eventDetails.matches.some((match) => match.outcome === 'loss') && <span>{eventDetails.matches.filter((match) => match.outcome === 'loss').length} défaite{eventDetails.matches.filter((match) => match.outcome === 'loss').length > 1 ? 's' : ''}</span>}</>}</div>}
             </div>
 
-            <div className="event-details-section">
+            {(eventDetails.notes || eventDetails.debrief_focus || eventDetails.division || eventDetails.weight_class || eventDetails.ruleset) && <div className="event-details-section">
               <span className="eyebrow"><span />NOTES & REPÈRES</span>
               <div className="event-details-bento">
-                <div className={`event-notes ${eventDetails.notes ? '' : 'is-empty'}`}><BookOpen size={17} /><div><span>NOTE PERSONNELLE</span><p>{eventDetails.notes || 'Aucune note personnelle n’a encore été ajoutée.'}</p></div></div>
-                <div className={`event-focus ${eventDetails.debrief_focus ? '' : 'is-empty'}`}><Target size={16} /><div><span>POINT FORT / AXE DE TRAVAIL</span><p>{eventDetails.debrief_focus || 'Aucun point fort ou axe de travail n’a encore été ajouté.'}</p></div></div>
+                {eventDetails.notes && <div className="event-notes"><BookOpen size={17} /><div><span>NOTE PERSONNELLE</span><p>{eventDetails.notes}</p></div></div>}
+                {eventDetails.debrief_focus && <div className="event-focus"><Target size={16} /><div><span>POINT FORT / AXE DE TRAVAIL</span><p>{eventDetails.debrief_focus}</p></div></div>}
                 {(eventDetails.division || eventDetails.weight_class || eventDetails.ruleset) && <div className="event-detail-facts">
                   {eventDetails.division && <div><span>DIVISION</span><strong>{eventDetails.division}</strong></div>}
                   {eventDetails.weight_class && <div><span>CATÉGORIE</span><strong>{eventDetails.weight_class}</strong></div>}
                   {eventDetails.ruleset && <div><span>RÈGLEMENT</span><strong>{eventDetails.ruleset}</strong></div>}
                 </div>}
               </div>
-            </div>
-            <div className="event-details-section">
+            </div>}
+            {!!eventDetails.competition_media?.length && <div className="event-details-section">
               <div className="event-details-section-title"><span className="eyebrow"><span />MÉDIAS</span><span>{eventDetails.competition_media?.length ?? 0}</span></div>
-              {eventDetails.competition_media?.length ? (
-                <div className="event-media-grid">
-                  {eventDetails.competition_media.map((media) => {
-                    const url = mediaUrls[media.id];
-                    return url ? media.media_type === 'video' ? <video key={media.id} controls preload="metadata" src={url} /> : <a key={media.id} href={url} target="_blank" rel="noreferrer"><img src={url} alt={media.caption || `Média de ${eventDetails.name}`} /></a> : null;
-                  })}
-                </div>
-              ) : <p className="event-details-empty">Aucune photo ou vidéo n’a encore été ajoutée.</p>}
-            </div>
+              <div className="event-media-grid">
+                {eventDetails.competition_media.map((media) => {
+                  const url = mediaUrls[media.id];
+                  return url ? media.media_type === 'video' ? <video key={media.id} controls preload="metadata" src={url} /> : <a key={media.id} href={url} target="_blank" rel="noreferrer"><img src={url} alt={media.caption || `Média de ${eventDetails.name}`} /></a> : null;
+                })}
+              </div>
+            </div>}
             <button type="button" className="import-button" onClick={() => { setEventDetails(null); setDebriefStep(1); setDebriefFor(eventDetails); }}><Target size={18} /> Ajouter un débrief</button>
           </section>
         </div>
