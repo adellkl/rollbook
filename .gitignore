@@ -29,6 +29,9 @@ yarn-error.log*
 # local environment
 .env*
 
+# Supabase CLI local state
+/supabase/.temp/
+
 # deployment and generated files
 .vercel
 next-env.d.ts
@@ -36,3 +39,4 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+*.tsbuildinfo
