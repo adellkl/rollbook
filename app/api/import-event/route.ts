@@ -66,12 +66,37 @@ function imageUrl(value: unknown, base: URL) {
 }
 function dateOnly(value: unknown) {
   if (typeof value !== 'string') return undefined;
-  const iso = value.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
+  const normalized = value
+    .replace(/(\d)(?:st|nd|rd|th)\b/gi, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const iso = normalized.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
   if (iso) return iso;
-  const parsed = new Date(value);
+  const numeric = normalized.match(/^(\d{1,2})[/.](\d{1,2})[/.](\d{4})$/);
+  if (numeric) {
+    const [, day, month, year] = numeric;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+  const parsed = new Date(normalized);
   return Number.isNaN(parsed.getTime())
     ? undefined
     : parsed.toISOString().slice(0, 10);
+}
+function visibleText(html: string) {
+  return decode(
+    html
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' '),
+  );
+}
+function labeledEventStartDate(html: string) {
+  const text = visibleText(html);
+  const date = '(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\\s*)?' +
+    '(?:[A-Za-z]{3,9}\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?[,]?\\s+\\d{4}|\\d{1,2}(?:st|nd|rd|th)?\\s+[A-Za-z]{3,9}\\.?\\s+\\d{4}|\\d{4}[./-]\\d{1,2}[./-]\\d{1,2})';
+  const match = text.match(new RegExp(`(?:event\\s+starts|starts\\s+(?:on|at))\\s*:?\\s*(${date})`, 'i'));
+  return match?.[1] ? dateOnly(match[1]) : undefined;
 }
 function eventDate(html: string) {
   const candidate =
@@ -79,7 +104,7 @@ function eventDate(html: string) {
     meta(html, 'og:start_time') ??
     html.match(/"startDate"\s*:\s*"([^"]+)"/i)?.[1] ??
     html.match(/"start_date"\s*:\s*"([^"]+)"/i)?.[1];
-  return dateOnly(candidate);
+  return dateOnly(candidate) ?? labeledEventStartDate(html);
 }
 
 async function eventFromPage(url: URL): Promise<ImportedEvent | undefined> {
