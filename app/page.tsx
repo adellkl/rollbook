@@ -1384,11 +1384,6 @@ export default function Home() {
               {(eventDetails.overall_score || eventDetails.matches?.length) && <div className="event-details-quick-results">{eventDetails.overall_score && <span className="event-score">NOTE {eventDetails.overall_score}/10</span>}{!!eventDetails.matches?.length && <><span>{eventDetails.matches.length} combat{eventDetails.matches.length > 1 ? 's' : ''}</span><span>{eventDetails.matches.filter((match) => match.outcome === 'win').length} victoire{eventDetails.matches.filter((match) => match.outcome === 'win').length > 1 ? 's' : ''}</span>{eventDetails.matches.some((match) => match.outcome === 'loss') && <span>{eventDetails.matches.filter((match) => match.outcome === 'loss').length} défaite{eventDetails.matches.filter((match) => match.outcome === 'loss').length > 1 ? 's' : ''}</span>}</>}</div>}
             </div>
 
-            <div className="event-details-summary">
-              <div><span>COMBATS</span><strong>{eventDetails.matches?.length ?? 0}</strong></div>
-              <div><span>RÉSULTAT</span><strong>{eventDetails.medal ? medals[eventDetails.medal] : eventDetails.placement ? `${eventDetails.placement}e` : '—'}</strong></div>
-            </div>
-
             <div className="event-details-section">
               <span className="eyebrow"><span />NOTES & REPÈRES</span>
               <div className="event-details-bento">
