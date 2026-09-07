@@ -1270,6 +1270,12 @@ button {
 }
 
 @media (max-width: 700px) {
+  /* iOS zooms the page when a form control uses text smaller than 16px. */
+  input:not([type='checkbox']):not([type='radio']),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
   body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   .topbar { height: 64px; padding: 0 16px; }
   .season { font-size: 12px; }
