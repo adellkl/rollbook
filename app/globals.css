@@ -10,6 +10,13 @@ body {
   min-width: 320px;
   overflow-x: hidden;
 }
+/* Desktop keeps scrolling available, without exposing browser scroll tracks. */
+@media (min-width: 701px) {
+  html,
+  body,
+  * { scrollbar-width: none; -ms-overflow-style: none; }
+  *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+}
 .auth-screen { min-height: 100dvh; }
 button,
 input {
