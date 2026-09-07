@@ -1118,13 +1118,6 @@ export default function Home() {
                             year: 'numeric',
                           }).format(new Date(`${item.starts_on}T12:00:00`))}
                         </span>
-                        <div className="event-monogram">
-                          {item.name
-                            .split(' ')
-                            .slice(0, 2)
-                            .map((word) => word[0])
-                            .join('')}
-                        </div>
                         <span className="event-city">
                           <MapPin size={14} />
                           {item.city || 'Lieu à préciser'}

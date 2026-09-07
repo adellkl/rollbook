@@ -632,18 +632,6 @@ button {
   align-items: center;
   gap: 3px;
 }
-.event-monogram {
-  font-family: Georgia, serif;
-  font-size: 48px;
-  line-height: 1;
-  font-style: italic;
-  font-weight: bold;
-  letter-spacing: -5px;
-  opacity: 0.9;
-  position: absolute;
-  bottom: 25px;
-  right: 23px;
-}
 .event-body {
   padding: 17px 17px 18px;
 }
