@@ -1238,9 +1238,9 @@ export default function Home() {
               <textarea name="notes" rows={4} maxLength={360} defaultValue={editingTraining?.notes ?? ''} placeholder="Décris ton ressenti : ce qui a bien fonctionné, ce que tu veux reprendre…" />
               <p><span>✦</span> Une phrase suffit pour retrouver l’essentiel de ta séance.</p>
             </div>
-            <div className="flex gap-3">
+            <div className="training-modal-actions">
               {editingTraining && <button className="text-button text-red-700" type="button" onClick={() => void deleteTrainingSession(editingTraining.id)}><Trash2 size={16} /> Supprimer</button>}
-              <button className="import-button flex-1" disabled={savingTraining} type="submit">{savingTraining ? 'Enregistrement…' : <><Check size={19} /> {editingTraining ? 'Enregistrer les modifications' : 'Enregistrer la séance'}</>}</button>
+              <button className="import-button" disabled={savingTraining} type="submit">{savingTraining ? 'Enregistrement…' : <><Check size={19} /> {editingTraining ? 'Enregistrer les modifications' : 'Enregistrer la séance'}</>}</button>
             </div>
             <small><CircleDot size={13} /> Visible uniquement dans ton compte.</small>
           </form>

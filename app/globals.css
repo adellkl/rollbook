@@ -854,9 +854,11 @@ button {
   font: inherit;
   font-size: 13px;
   line-height: 1.55;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  transition: min-height 180ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 .training-note-editor textarea::placeholder { color: #99a79e; }
+.training-note-editor textarea:placeholder-shown { min-height: 58px; resize: none; }
+.training-note-editor textarea:not(:placeholder-shown) { min-height: 92px; }
 .training-note-editor textarea:focus {
   border-color: #8db64d;
   background: #fff;
@@ -872,6 +874,26 @@ button {
   line-height: 1.35;
 }
 .training-note-editor p span { color: #7ca744; }
+.training-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  min-width: 0;
+}
+.training-modal-actions .text-button {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 10px 3px;
+  white-space: nowrap;
+}
+.training-modal-actions .import-button {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  margin-top: 0;
+  white-space: nowrap;
+}
 .import-button {
   width: 100%;
   display: flex;
@@ -1399,8 +1421,14 @@ button {
   .training-modal select { min-height: 43px; font-size: 14px; }
   .training-modal .grid.grid-cols-2 { gap: 10px; }
   .training-modal .training-note-editor { margin-top: 14px; padding: 11px; }
-  .training-modal .training-note-editor textarea { min-height: 102px; font-size: 14px; }
+  .training-modal .training-note-editor textarea { min-height: 92px; font-size: 14px; }
+  .training-modal .training-note-editor textarea:placeholder-shown { min-height: 58px; }
+  .training-modal .training-note-editor textarea:not(:placeholder-shown) { min-height: 92px; }
   .training-modal .import-button { min-height: 50px; }
+  .training-modal .training-modal-actions { gap: 8px; margin-top: 14px; }
+  .training-modal .training-modal-actions .text-button { font-size: 12px; }
+  .training-modal .training-modal-actions .import-button { padding: 12px 9px; font-size: 12px; }
+  .training-modal .training-modal-actions .import-button svg { width: 17px; height: 17px; flex: 0 0 auto; }
   .training-modal > small { display: flex; justify-content: center; margin-top: 14px; }
   .competition-modal-wrap { align-items: center; padding: 16px; }
   .competition-modal { max-height: calc(100dvh - 32px); border-radius: 24px; padding: 22px 18px 20px; }
