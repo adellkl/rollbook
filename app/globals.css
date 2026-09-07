@@ -920,9 +920,10 @@ button {
 .event-details-hero h2 { color: #fff; margin: 15px 0 10px; }
 .event-details-quick-results { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; }
 .event-details-quick-results span { padding: 4px 7px; border: 1px solid rgba(228, 255, 205, .22); border-radius: 99px; background: rgba(8, 31, 22, .18); color: #e8f4e7; font-size: 10px; font-weight: 700; }
+.event-details-quick-results .event-score { border-color: rgba(208, 255, 111, .55); background: rgba(198, 255, 81, .14); color: #dcff95; }
 .event-details-summary {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   margin: -1px 23px 21px;
   border: 1px solid #e5ebe5;
   background: #fff;
