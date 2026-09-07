@@ -1374,7 +1374,12 @@ export default function Home() {
             onMouseDown={(event) => event.stopPropagation()}
           >
             <button className="close" type="button" onClick={() => setEventDetails(null)} aria-label="Fermer"><X size={19} /></button>
-            <div className="event-details-hero">
+            <div
+              className="event-details-hero"
+              style={eventDetails.cover_image_url ? {
+                backgroundImage: `linear-gradient(125deg, rgba(12, 52, 37, .9), rgba(43, 100, 55, .72)), url(${JSON.stringify(eventDetails.cover_image_url)})`,
+              } : undefined}
+            >
               <span className="event-details-date">
                 <CalendarDays size={15} />
                 {new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(`${eventDetails.starts_on}T12:00:00`))}

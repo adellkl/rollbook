@@ -906,6 +906,8 @@ button {
   color: #fff;
   padding: 27px 76px 25px 27px;
   background: linear-gradient(125deg, #16342a, #42653e);
+  background-position: center;
+  background-size: cover;
   border-top-right-radius: 58px;
 }
 .event-details-modal > .close { z-index: 2; }
