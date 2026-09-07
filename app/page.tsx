@@ -677,7 +677,7 @@ export default function Home() {
             TON CARNET PERSONNEL
           </span>
           <h1 className="mt-3 text-4xl font-bold tracking-tight">
-            Chaque passage sur le tapis devient une donnée.
+            Chaque passage sur le tapis compte.
           </h1>
           <form onSubmit={authenticate}>
             <p className="mt-3 text-sm leading-6 text-[#69766F]">Utilise l’identifiant et le code PIN que Adel t’a transmis.</p>
@@ -856,7 +856,7 @@ export default function Home() {
       <>
         Chaque passage sur le tapis
         <br />
-        <em>devient une donnée.</em>
+        <em>compte.</em>
       </>
     );
   return (
@@ -981,8 +981,8 @@ export default function Home() {
                 {page === 'training'
                   ? 'Planifie tes séances, note ton ressenti et garde un historique utile de ton travail.'
                   : page === 'competitions'
-                    ? 'Retrouve et analyse les résultats synchronisés avec ton compte.'
-                    : 'Des résultats synchronisés avec ton compte Supabase, tes combats et ta progression.'}
+                    ? 'Retrouve tes résultats et suis ton évolution, compétition après compétition.'
+                    : 'Retrouve tes résultats, tes combats et les progrès de ta saison.'}
               </p>
               {page === 'training' && (
                 <>
@@ -1079,7 +1079,7 @@ export default function Home() {
               </section>
               {loading ? (
                 <div className="rounded-2xl border border-[#E4E9E5] bg-white p-8 text-sm text-[#69766F]">
-                  Synchronisation de tes données…
+                  Préparation de ton carnet…
                 </div>
               ) : displayedCompetitions.length ? (
                 <section className="event-grid">
