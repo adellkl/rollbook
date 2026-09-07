@@ -156,7 +156,11 @@ async function eventFromSmoothcompCalendar(
             ? found.location_city
             : undefined,
         startsOn: dateOnly(
-          found.start_date ?? found.startDate ?? found.date ?? found.starts_on,
+          found.startdate ??
+            found.start_date ??
+            found.startDate ??
+            found.date ??
+            found.starts_on,
         ),
         sourceUrl: url.toString(),
         organizer: 'Smoothcomp',
