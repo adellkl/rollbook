@@ -106,6 +106,12 @@ function eventDate(html: string) {
     html.match(/"start_date"\s*:\s*"([^"]+)"/i)?.[1];
   return dateOnly(candidate) ?? labeledEventStartDate(html);
 }
+function cfjjbEventImage(html: string, base: URL) {
+  const match = html.match(
+    /<img\b[^>]+(?:src|data-src)=["']([^"']*(?:storage\/v1\/object\/public\/competitions|storage\/elements\/competition_images)[^"']*)["'][^>]*>/i,
+  );
+  return imageUrl(match?.[1], base);
+}
 
 async function eventFromPage(url: URL): Promise<ImportedEvent | undefined> {
   const response = await fetch(url, {
@@ -121,12 +127,16 @@ async function eventFromPage(url: URL): Promise<ImportedEvent | undefined> {
   const name = rawTitle ? cleanTitle(decode(rawTitle)) : '';
   if (!name || /^(just a moment|enable javascript)/i.test(name))
     return undefined;
+  const organizer = isSmoothcomp(url.hostname) ? 'Smoothcomp' : 'CFJJB';
   return {
     name,
-    image: imageUrl(meta(html, 'og:image') ?? meta(html, 'twitter:image'), url),
+    image:
+      organizer === 'CFJJB'
+        ? cfjjbEventImage(html, url) ?? imageUrl(meta(html, 'og:image') ?? meta(html, 'twitter:image'), url)
+        : imageUrl(meta(html, 'og:image') ?? meta(html, 'twitter:image'), url),
     startsOn: eventDate(html),
     sourceUrl: url.toString(),
-    organizer: isSmoothcomp(url.hostname) ? 'Smoothcomp' : 'CFJJB',
+    organizer,
   };
 }
 
