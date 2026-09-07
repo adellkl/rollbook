@@ -936,6 +936,7 @@ button {
 .event-details-summary span { display: block; color: #839088; font-size: 9px; font-weight: 800; letter-spacing: .7px; }
 .event-details-summary strong { display: block; margin-top: 5px; color: #173127; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .event-details-section { margin: 0 23px 22px; }
+.event-details-hero + .event-details-section { margin-top: 12px; }
 .event-details-section .eyebrow { font-size: 10px; }
 .event-details-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 9px; }
 .event-details-bento .event-notes, .event-details-bento .event-focus { height: 100%; margin-top: 0; }
