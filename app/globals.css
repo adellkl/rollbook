@@ -390,6 +390,7 @@ button {
   bottom: 21px;
   left: 22px;
 }
+.training-stat-heading { display: contents; }
 .next-competition-countdown {
   display: flex;
   align-items: center;
@@ -1317,11 +1318,35 @@ button {
   .countdown-values { width: 100%; gap: 8px; }
   .countdown-values > div { flex: 1 1 0; min-width: 0; padding: 12px 5px; }
   .season-rate { width: 104px; flex-basis: 104px; }
-  .training-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 24px; }
-  .training-stats .stat-card { min-height: 138px; padding: 18px; }
-  .training-stats .stat-card:nth-child(3) { grid-column: span 2; min-height: 145px; }
-  .training-stats .big-number { font-size: 42px; margin-top: 13px; }
-  .training-stats .stat-card small { bottom: 17px; left: 18px; }
+  .training-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 24px; gap: 10px; }
+  .training-stats .training-stat-card {
+    min-height: 142px;
+    padding: 16px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #fff, #f4f7f3);
+  }
+  .training-stat-heading { display: flex; align-items: center; gap: 7px; color: #678d3d; }
+  .training-stat-heading .stat-label { color: #71847d; }
+  .training-stat-heading svg { flex: 0 0 auto; }
+  .training-stats .big-number { font-size: 40px; margin-top: 17px; }
+  .training-stats .big-number .text-base { font-size: 15px; letter-spacing: -1px; }
+  .training-stats .stat-card small { bottom: 16px; left: 16px; font-size: 10px; }
+  .training-stats .training-stat-intensity {
+    grid-column: span 2;
+    min-height: 96px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    background: radial-gradient(circle at 87% 20%, rgba(194, 255, 81, .2), transparent 28%), linear-gradient(135deg, #153b2e, #245640);
+    border-color: transparent;
+  }
+  .training-stat-intensity .training-stat-heading { color: #c8ff6a; }
+  .training-stat-intensity .training-stat-heading .stat-label { color: #e3f0e2; }
+  .training-stat-intensity .big-number { grid-column: 2; grid-row: 1 / span 2; margin: 0; color: #fff; font-size: 46px; }
+  .training-stat-intensity .big-number .text-base { color: #c9dec9; }
+  .training-stat-intensity small { position: static; grid-column: 1; grid-row: 2; align-self: end; color: #b8cfbd; }
   .training-week-grid {
     display: grid;
     grid-auto-flow: row;
