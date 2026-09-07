@@ -656,8 +656,8 @@ export default function Home() {
     setTrainingPanel(true);
   }
   const authScreen = !session && !loading ? (
-      <main className="min-h-screen grid place-items-center bg-[#14231E] p-5 text-[#15221E]">
-        <div className="w-full max-w-md rounded-[28px] bg-[#F6F7F5] p-8 shadow-2xl">
+      <main className="auth-screen min-h-screen grid place-items-center bg-[#14231E] p-5 text-[#15221E]">
+        <div className="auth-card w-full max-w-md rounded-[28px] bg-[#F6F7F5] p-8 shadow-2xl">
           <div className="brand mb-6 p-0">
             <span className="brand-mark">
               <Grip size={21} />

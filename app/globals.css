@@ -10,6 +10,7 @@ body {
   min-width: 320px;
   overflow-x: hidden;
 }
+.auth-screen { min-height: 100dvh; }
 button,
 input {
   font: inherit;
@@ -1156,6 +1157,15 @@ button {
   align-items: center;
 }
 @media (max-width: 900px) {
+  .auth-screen { height: 100dvh; min-height: 100dvh; overflow: hidden; padding: 16px; }
+  .auth-card { padding: 26px; }
+  .auth-card .brand { margin-bottom: 18px; }
+  .auth-card h1 { margin-top: 10px; font-size: clamp(30px, 5.5vw, 40px); line-height: 1.06; }
+  .auth-card form > p { margin-top: 10px; line-height: 1.4; }
+  .auth-card form label { margin-top: 12px; }
+  .auth-card input { padding-top: 10px; padding-bottom: 10px; }
+  .auth-card .import-button { min-height: 48px; margin-top: 14px; }
+  .auth-card > p { margin-top: 12px; }
   .sidebar {
     display: none;
   }
