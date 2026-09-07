@@ -917,6 +917,7 @@ button {
   margin: 0;
   color: rgba(255,255,255,.82);
 }
+.event-details-source { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; color: #d9ff93; font-size: 11px; font-weight: 700; }
 .event-details-hero h2 { color: #fff; margin: 15px 0 10px; }
 .event-details-quick-results { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; }
 .event-details-quick-results span { padding: 4px 7px; border: 1px solid rgba(228, 255, 205, .22); border-radius: 99px; background: rgba(8, 31, 22, .18); color: #e8f4e7; font-size: 10px; font-weight: 700; }
