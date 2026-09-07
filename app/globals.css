@@ -361,7 +361,8 @@ button {
   position: relative;
   z-index: 1;
   width: 112px;
-  height: 112px;
+  aspect-ratio: 1;
+  flex: 0 0 112px;
   align-self: center;
   display: grid;
   place-items: center;
@@ -1290,7 +1291,7 @@ button {
   .countdown-intro h2 { font-size: 19px; }
   .countdown-values { width: 100%; gap: 8px; }
   .countdown-values > div { flex: 1 1 0; min-width: 0; padding: 12px 5px; }
-  .season-rate { width: 104px; height: 104px; }
+  .season-rate { width: 104px; flex-basis: 104px; }
   .training-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 24px; }
   .training-stats .stat-card { min-height: 138px; padding: 18px; }
   .training-stats .stat-card:nth-child(3) { grid-column: span 2; min-height: 145px; }
