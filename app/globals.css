@@ -941,12 +941,14 @@ button {
 .event-details-bento .event-notes, .event-details-bento .event-focus { height: 100%; margin-top: 0; }
 .event-notes { display: flex; gap: 10px; margin-top: 9px; padding: 13px; border-radius: 10px; background: #f3f7ed; color: #5e8732; }
 .event-notes > div { min-width: 0; }
+.event-focus > div { min-width: 0; }
 .event-notes span { display: block; margin-bottom: 4px; color: #66834f; font-size: 9px; font-weight: 800; letter-spacing: .7px; }
 .event-notes p { margin: 0; color: #455e50; font-size: 13px; line-height: 1.5; }
 .event-notes.is-empty { background: #fafbf9; color: #8d9b90; }
 .event-notes.is-empty span, .event-notes.is-empty p { color: #87938b; }
 .event-focus { display: flex; gap: 10px; align-items: flex-start; margin-top: 9px; padding: 12px; border: 1px solid #e5ebe5; border-radius: 10px; color: #66834f; }
 .event-focus > div { display: grid; gap: 2px; }.event-focus span { font-size: 9px; font-weight: 800; letter-spacing: .7px; }.event-focus p { margin: 0; color: #455e50; font-size: 13px; }
+.event-notes p, .event-focus p { overflow-wrap: anywhere; }
 .event-focus.is-empty { border-style: dashed; color: #8d9b90; }.event-focus.is-empty span, .event-focus.is-empty p { color: #87938b; }
 .event-detail-facts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 2px; }
 .event-detail-facts > div { display: grid; gap: 3px; min-width: 0; padding: 9px 10px; border: 1px solid #e5ebe5; border-radius: 9px; background: #fff; }
@@ -1381,6 +1383,8 @@ button {
     overflow: hidden;
     padding-bottom: 10px;
   }
+  .event-details-modal.has-long-content { overflow-y: auto; }
+  .event-details-modal.has-long-content .event-details-bento { grid-template-columns: 1fr; }
   .event-details-hero { padding: 16px 52px 14px 18px; }
   .event-details-hero h2 { margin: 9px 0 7px; font-size: 21px; line-height: 1.02; letter-spacing: -1.1px; }
   .event-details-date, .event-details-hero p { font-size: 11px; }

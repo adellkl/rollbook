@@ -1367,7 +1367,7 @@ export default function Home() {
       {eventDetails && (
         <div className="modal-wrap" onMouseDown={() => setEventDetails(null)}>
           <section
-            className="modal event-details-modal"
+            className={`modal event-details-modal ${((eventDetails.notes?.length ?? 0) > 110 || (eventDetails.debrief_focus?.length ?? 0) > 110) ? 'has-long-content' : ''}`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="event-details-title"
