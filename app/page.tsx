@@ -248,6 +248,7 @@ export default function Home() {
   const [resettingPin, setResettingPin] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [dismissedNotificationIds, setDismissedNotificationIds] = useState<string[]>([]);
+  const [browserNotificationPermission, setBrowserNotificationPermission] = useState<NotificationPermission | 'unsupported'>('default');
   const [countdownNow, setCountdownNow] = useState(() => Date.now());
   const [deletingCompetitionId, setDeletingCompetitionId] = useState<string | null>(null);
   const [competitionPendingDeletion, setCompetitionPendingDeletion] = useState<Competition | null>(null);
@@ -361,6 +362,13 @@ export default function Home() {
     if (saved && ['overview', 'competitions', 'training', 'regulations', 'athletes'].includes(saved)) setPage(saved);
   }, []);
   useEffect(() => { window.localStorage.setItem('rollbook-page', page); }, [page]);
+  useEffect(() => {
+    if (!('Notification' in window)) {
+      setBrowserNotificationPermission('unsupported');
+      return;
+    }
+    setBrowserNotificationPermission(Notification.permission);
+  }, []);
   useEffect(() => {
     if (!panel) setModalStep(1);
   }, [panel]);
@@ -715,7 +723,7 @@ export default function Home() {
     const upcoming = competitions
       .filter((competition) => new Date(`${competition.starts_on}T00:00:00`) >= today)
       .sort((a, b) => a.starts_on.localeCompare(b.starts_on))
-      .slice(0, 2)
+      .slice(0, 3)
       .map((competition) => {
         const days = Math.round((new Date(`${competition.starts_on}T00:00:00`).getTime() - today.getTime()) / 86_400_000);
         return {
@@ -723,7 +731,15 @@ export default function Home() {
           page: 'competitions' as Page,
           icon: CalendarDays,
           tone: days <= 3 ? 'urgent' : 'neutral',
-          title: days === 0 ? 'C’est le jour J' : days === 1 ? 'Compétition demain' : `Compétition dans ${days} jours`,
+          title: days === 0
+            ? 'C’est le jour J'
+            : days === 1
+              ? 'Compétition demain'
+              : days <= 7
+                ? `Compétition dans ${days} jours`
+                : days <= 14
+                  ? 'Deux semaines pour se préparer'
+                  : `Prochaine compétition dans ${days} jours`,
           text: `${competition.name}${competition.city ? ` · ${competition.city}` : ''}`,
         };
       });
@@ -736,10 +752,54 @@ export default function Home() {
         title: 'Semaine à lancer',
         text: 'Planifie ta première séance pour garder le rythme.',
       });
+    } else if (weeklyVolume < 180) {
+      upcoming.push({
+        id: 'training-volume',
+        page: 'training' as Page,
+        icon: Target,
+        tone: 'neutral',
+        title: `${180 - weeklyVolume} min avant ton objectif`,
+        text: `${weeklyVolume} min enregistrées cette semaine sur 180 min visées.`,
+      });
     }
-    return upcoming;
-  }, [competitions, weeklySessions.length]);
+    const recentUnreviewed = competitions
+      .filter((competition) => new Date(`${competition.starts_on}T12:00:00`) < today && !competition.notes && !competition.debrief_focus)
+      .sort((a, b) => b.starts_on.localeCompare(a.starts_on))[0];
+    if (recentUnreviewed) {
+      upcoming.push({
+        id: `debrief-${recentUnreviewed.id}`,
+        page: 'competitions' as Page,
+        icon: Sparkles,
+        tone: 'positive',
+        title: 'Un débrief à garder en mémoire',
+        text: `Ajoute ton ressenti sur ${recentUnreviewed.name}.`,
+      });
+    }
+    return upcoming.slice(0, 5);
+  }, [competitions, weeklySessions.length, weeklyVolume]);
   const visibleNotifications = notifications.filter((notification) => !dismissedNotificationIds.includes(notification.id));
+  useEffect(() => {
+    if (browserNotificationPermission !== 'granted' || !visibleNotifications.length) return;
+    const today = new Date().toISOString().slice(0, 10);
+    const key = `rollbook-notifications-${today}`;
+    const seen = new Set<string>(JSON.parse(window.sessionStorage.getItem(key) ?? '[]'));
+    const newNotifications = visibleNotifications.filter((notification) => !seen.has(notification.id)).slice(0, 2);
+    newNotifications.forEach((notification) => {
+      new Notification(notification.title, { body: notification.text, icon: '/favicon.svg', tag: notification.id });
+      seen.add(notification.id);
+    });
+    window.sessionStorage.setItem(key, JSON.stringify([...seen]));
+  }, [browserNotificationPermission, visibleNotifications]);
+  async function enableBrowserNotifications() {
+    if (!('Notification' in window)) {
+      setBrowserNotificationPermission('unsupported');
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    setBrowserNotificationPermission(permission);
+    if (permission === 'granted') setNotice('Les alertes de rappel sont activées sur cet appareil.');
+    if (permission === 'denied') setNotice('Les alertes sont bloquées par le navigateur. Tu peux les autoriser dans les réglages du site.');
+  }
   const upcomingCompetitions = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -864,6 +924,12 @@ export default function Home() {
               <div><span className="eyebrow"><span />À SUIVRE</span><h2>Notifications</h2></div>
               {visibleNotifications.length > 0 && <button onClick={() => setDismissedNotificationIds(notifications.map((notification) => notification.id))}>Tout lire</button>}
             </div>
+            {browserNotificationPermission !== 'granted' && browserNotificationPermission !== 'unsupported' && (
+              <button className="notification-enable" type="button" onClick={() => void enableBrowserNotifications()}>
+                <Bell size={15} /> {browserNotificationPermission === 'denied' ? 'Alertes bloquées dans le navigateur' : 'Activer les alertes sur cet appareil'}
+              </button>
+            )}
+            {browserNotificationPermission === 'granted' && <p className="notification-status"><Check size={14} /> Alertes activées sur cet appareil</p>}
             {visibleNotifications.length ? (
               <div className="notification-list">
                 {visibleNotifications.map((notification) => {
