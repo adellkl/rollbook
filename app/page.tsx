@@ -1392,14 +1392,16 @@ export default function Home() {
 
             <div className="event-details-section">
               <span className="eyebrow"><span />NOTES & REPÈRES</span>
-              <div className={`event-notes ${eventDetails.notes ? '' : 'is-empty'}`}><BookOpen size={17} /><div><span>NOTE PERSONNELLE</span><p>{eventDetails.notes || 'Aucune note personnelle n’a encore été ajoutée.'}</p></div></div>
-              <div className={`event-focus ${eventDetails.debrief_focus ? '' : 'is-empty'}`}><Target size={16} /><div><span>POINT FORT / AXE DE TRAVAIL</span><p>{eventDetails.debrief_focus || 'Aucun point fort ou axe de travail n’a encore été ajouté.'}</p></div></div>
-              {(eventDetails.division || eventDetails.weight_class || eventDetails.ruleset || eventDetails.source_url) && <div className="event-detail-facts">
-                {eventDetails.division && <div><span>DIVISION</span><strong>{eventDetails.division}</strong></div>}
-                {eventDetails.weight_class && <div><span>CATÉGORIE</span><strong>{eventDetails.weight_class}</strong></div>}
-                {eventDetails.ruleset && <div><span>RÈGLEMENT</span><strong>{eventDetails.ruleset}</strong></div>}
-                {eventDetails.source_url && <a href={eventDetails.source_url} target="_blank" rel="noreferrer"><ExternalLink size={14} /> Page de l’événement</a>}
-              </div>}
+              <div className="event-details-bento">
+                <div className={`event-notes ${eventDetails.notes ? '' : 'is-empty'}`}><BookOpen size={17} /><div><span>NOTE PERSONNELLE</span><p>{eventDetails.notes || 'Aucune note personnelle n’a encore été ajoutée.'}</p></div></div>
+                <div className={`event-focus ${eventDetails.debrief_focus ? '' : 'is-empty'}`}><Target size={16} /><div><span>POINT FORT / AXE DE TRAVAIL</span><p>{eventDetails.debrief_focus || 'Aucun point fort ou axe de travail n’a encore été ajouté.'}</p></div></div>
+                {(eventDetails.division || eventDetails.weight_class || eventDetails.ruleset || eventDetails.source_url) && <div className="event-detail-facts">
+                  {eventDetails.division && <div><span>DIVISION</span><strong>{eventDetails.division}</strong></div>}
+                  {eventDetails.weight_class && <div><span>CATÉGORIE</span><strong>{eventDetails.weight_class}</strong></div>}
+                  {eventDetails.ruleset && <div><span>RÈGLEMENT</span><strong>{eventDetails.ruleset}</strong></div>}
+                  {eventDetails.source_url && <a href={eventDetails.source_url} target="_blank" rel="noreferrer"><ExternalLink size={14} /> Page de l’événement</a>}
+                </div>}
+              </div>
             </div>
             <div className="event-details-section">
               <div className="event-details-section-title"><span className="eyebrow"><span />MÉDIAS</span><span>{eventDetails.competition_media?.length ?? 0}</span></div>
