@@ -1356,9 +1356,29 @@ button {
   .competition-modal { max-height: calc(100dvh - 32px); border-radius: 24px; padding: 22px 18px 20px; }
   .competition-modal .modal-steps { padding-right: 35px; }
   .competition-modal .import-mark { margin-bottom: 10px; }
-  .event-details-modal { max-height: 93dvh; }
-  .event-details-summary { margin: -1px 16px 17px; }
-  .event-details-section { margin: 0 16px 18px; }
+  .event-details-modal {
+    max-height: calc(100dvh - 16px);
+    overflow: hidden;
+    padding-bottom: 10px;
+  }
+  .event-details-hero { padding: 16px 52px 14px 18px; }
+  .event-details-hero h2 { margin: 9px 0 7px; font-size: 21px; line-height: 1.02; letter-spacing: -1.1px; }
+  .event-details-date, .event-details-hero p { font-size: 11px; }
+  .event-details-summary { margin: -1px 12px 10px; }
+  .event-details-summary div { padding: 8px 7px; }
+  .event-details-summary strong { margin-top: 3px; font-size: 14px; }
+  .event-details-section { margin: 0 12px 10px; }
+  .event-details-section .eyebrow { font-size: 9px; }
+  .event-notes, .event-focus { gap: 8px; margin-top: 6px; padding: 8px; }
+  .event-notes svg, .event-focus svg { width: 15px; height: 15px; }
+  .event-notes span, .event-focus span { margin-bottom: 2px; font-size: 8px; }
+  .event-notes p, .event-focus p, .event-details-empty { font-size: 12px; line-height: 1.3; }
+  .event-detail-facts { gap: 5px; margin-top: 6px; }
+  .event-detail-facts > div { min-width: 0; flex: 1 1 30%; gap: 2px; padding: 6px 8px; }
+  .event-detail-facts span { font-size: 8px; }
+  .event-detail-facts strong { font-size: 11px; }
+  .event-detail-facts a { min-height: 30px; padding: 6px 8px; font-size: 11px; }
+  .event-details-modal > .import-button { min-height: 46px; margin: 0 12px; width: calc(100% - 24px); }
   .athlete-row { align-items: flex-start; flex-direction: column; }
   .athlete-row-actions { width: 100%; justify-content: space-between; }
   .mobile-nav {
