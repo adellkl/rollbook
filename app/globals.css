@@ -1362,7 +1362,18 @@ button {
   .countdown-intro h2 { font-size: 19px; }
   .countdown-values { width: 100%; gap: 8px; }
   .countdown-values > div { flex: 1 1 0; min-width: 0; padding: 12px 5px; }
-  .season-rate { width: 104px; flex-basis: 104px; }
+  .overview-stats .season-summary-card { min-height: 148px; padding: 18px 16px; }
+  .season-summary-content { min-width: 0; flex: 1 1 auto; }
+  .overview-stats .season-rate { width: 78px; flex-basis: 78px; margin-left: 10px; }
+  .overview-stats .season-rate::before { inset: 5px; }
+  .overview-stats .season-rate strong { font-size: 21px; letter-spacing: -1px; }
+  .overview-stats .season-rate strong > b { font-size: 11px; }
+  .overview-stats .season-rate > div > span { font-size: 8px; }
+  .overview-stats .season-record { gap: 10px; margin-top: 13px; }
+  .overview-stats .season-record > div + div { padding-left: 10px; }
+  .overview-stats .season-record strong { font-size: 28px; }
+  .overview-stats .season-record span { font-size: 10px; white-space: nowrap; }
+  .overview-stats .positive { margin-top: 10px; font-size: 10px; }
   .training-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 24px; gap: 10px; }
   .training-stats .training-stat-card {
     min-height: 142px;
