@@ -1346,15 +1346,6 @@ export default function Home() {
               Smoothcomp et les pages de compétition CFJJB sont pris en charge.
             </small>
             {notice && <p className="modal-notice">{notice}</p>}
-            {coverImageUrl && (
-              <div className="event-preview">
-                <img src={coverImageUrl} alt="Visuel de l’événement importé" />
-                <span>
-                  <Check size={15} />
-                  Visuel récupéré
-                </span>
-              </div>
-            )}
             <label>NOM DE LA COMPÉTITION</label>
             <input
               required
