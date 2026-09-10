@@ -223,6 +223,7 @@ export default function Home() {
   const [creatingAthlete, setCreatingAthlete] = useState(false);
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [authLoading, setAuthLoading] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const [panel, setPanel] = useState(false);
   const [modalStep, setModalStep] = useState<1 | 2>(1);
   const [saving, setSaving] = useState(false);
@@ -801,6 +802,15 @@ export default function Home() {
     if (permission === 'granted') setNotice('Les alertes de rappel sont activées sur cet appareil.');
     if (permission === 'denied') setNotice('Les alertes sont bloquées par le navigateur. Tu peux les autoriser dans les réglages du site.');
   }
+  async function handleLogout() {
+    setLogoutLoading(true);
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    setLogoutLoading(false);
+
+    if (error) {
+      setNotice('La déconnexion a échoué. Réessaie dans un instant.');
+    }
+  }
   const upcomingCompetitions = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -902,6 +912,15 @@ export default function Home() {
             <span>Saison {new Date().getFullYear()}</span>
           </div>
           <div className="topbar-actions">
+            <button
+              className="logout-trigger"
+              type="button"
+              onClick={() => setConfirmLogout(true)}
+              aria-label="Se déconnecter"
+              title="Se déconnecter"
+            >
+              <LogOut size={18} />
+            </button>
             <button
               className={`notification-trigger ${visibleNotifications.length ? 'has-notifications' : ''}`}
               onClick={() => setNotificationsOpen((open) => !open)}
@@ -1478,7 +1497,7 @@ export default function Home() {
           </section>
         </div>
       )}
-      {confirmLogout && <div className="modal-wrap"><div className="modal"><div className="import-mark"><LogOut size={23} /></div><h2>Se déconnecter ?</h2><p>Tu pourras te reconnecter avec ton identifiant et ton code PIN.</p><div className="flex gap-3"><button className="text-button" onClick={() => setConfirmLogout(false)}>Annuler</button><button className="import-button mt-0" onClick={() => void supabase.auth.signOut()}>Valider</button></div></div></div>}
+      {confirmLogout && <div className="modal-wrap"><div className="modal"><div className="import-mark"><LogOut size={23} /></div><h2>Se déconnecter ?</h2><p>Tu pourras te reconnecter avec ton identifiant et ton code PIN.</p><div className="flex gap-3"><button className="text-button" disabled={logoutLoading} onClick={() => setConfirmLogout(false)}>Annuler</button><button className="import-button mt-0" disabled={logoutLoading} onClick={() => void handleLogout()}>{logoutLoading ? 'Déconnexion…' : 'Valider'}</button></div></div></div>}
     </main>
   );
 }
